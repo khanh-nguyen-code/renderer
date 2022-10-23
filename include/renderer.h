@@ -11,7 +11,7 @@
 namespace renderer {
 class texture{
 public:
-    enum color {r8, rgb8, rgba8};
+    enum color {r8 = 0, rgb8 = 1, rgba8 = 2};
     texture();
     ~texture();
 

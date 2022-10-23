@@ -32,6 +32,12 @@
         "streambuf": "cpp",
         "system_error": "cpp",
         "cstddef": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "bit": "cpp",
+        "functional": "cpp",
+        "numeric": "cpp",
+        "utility": "cpp",
+        "array": "cpp",
+        "memory": "cpp"
     }
 }

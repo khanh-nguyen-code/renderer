@@ -70,21 +70,18 @@ int main(void) {
 		 1.0f,  1.0f, 1.0f, 1.0f, // top right
 		-1.0f,  1.0f, 0.0f, 1.0f  // top left
 	};
-
-
-
-	renderer::vertex_array va;
 	renderer::vertex_buffer vb;
 	vb.update(positions.data(), positions.size() * sizeof(float));
 	renderer::vertex_buffer_layout layout;
 	layout.push_float(2);// 2 floats of rectangle vertices
 	layout.push_float(2);// 2 floats of texture coordinates
 
+	renderer::vertex_array va;
 	va.add_buffer(vb, layout);
 
 	std::vector<unsigned int> indices = {
-		0, 1, 2,
-		2, 3, 0
+		0, 1, 2, // first triangle (bottom left - bottom right - top right)
+		2, 3, 0  // second triangle (top right - top left - bottom left)
 	};
 	renderer::index_buffer ib;
 	ib.update(indices.data(), indices.size());
@@ -105,8 +102,6 @@ int main(void) {
 	texture.unbind();
 
 	renderer::renderer renderer;
-	
-	
 
 	texture_buffer image("./data/textures/image.png");
 
