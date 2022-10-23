@@ -57,7 +57,7 @@ int main(void) {
 	if (glewInit() != GLEW_OK)
 		std::cout << "error" << std::endl;
 
-	std::cout << "opengl version:" << glGetString(GL_VERSION) << std::endl;
+	std::cout << "opengl version: " << glGetString(GL_VERSION) << std::endl;
 
 	{
 
@@ -72,7 +72,8 @@ int main(void) {
 
 
 	renderer::vertex_array va;
-	renderer::vertex_buffer vb(positions.data(), positions.size() * sizeof(float));
+	renderer::vertex_buffer vb;
+	vb.update(positions.data(), positions.size() * sizeof(float));
 	renderer::vertex_buffer_layout layout;
 	layout.push_float(2);// 2 floats of rectangle vertices
 	layout.push_float(2);// 2 floats of texture coordinates
@@ -83,7 +84,8 @@ int main(void) {
 		0, 1, 2,
 		2, 3, 0
 	};
-	renderer::index_buffer ib(indices.data(), indices.size());
+	renderer::index_buffer ib;
+	ib.update(indices.data(), indices.size());
 
 	auto [v_shader, f_shader] = renderer_util::parse_shader("./data/shaders/image2d.shader");
 	renderer::shader shader(v_shader, f_shader);

@@ -45,9 +45,11 @@ private:
 };
 class index_buffer {
 public:
-    //size : size in bytes of data
-    index_buffer(const unsigned int *data, unsigned int count);
+    index_buffer();
     ~index_buffer();
+
+    // count : number of elements
+    void update(const unsigned int *data, unsigned int count);
 
     void bind() const;
     void unbind() const;
@@ -59,9 +61,11 @@ private:
 };
 class vertex_buffer{
 public:
-    //size : size in bytes of data
-    vertex_buffer(const void *data, unsigned int size);
+    vertex_buffer();
     ~vertex_buffer();
+
+    // size : size in bytes of data
+    void update(const void *data, unsigned int size) const;
 
     void bind() const;
     void unbind() const;
