@@ -3,17 +3,29 @@ CC = cc
 CFLAGS = -Wall -g -std=c++17 -fPIC -I . -I include -L lib `pkg-config --cflags glew glfw3`
 LDFLAGS = -l stdc++ `pkg-config --libs glew glfw3`
 LIBRARY = Renderer
-TARGET = run
 
 LIBRARY_FILE = lib/lib$(LIBRARY).so
 
-# $(wildcard src/*.cpp): get all .cpp files from the current directory and dir "src/"
-SRC_FILES := $(wildcard src/*.cpp)
-OBJ_FILES := $(patsubst src/%.cpp,obj/%.o,$(SRC_FILES))
+UNAME = $(shell uname)
+ifeq ($(UNAME), Darwin)
+LDFLAGS += -framework OpenGL
+endif
 
-$(TARGET): dir shader $(LIBRARY_FILE)
-	$(CC) $(CFLAGS) -o $(TARGET) main.cpp $(LDFLAGS) -l $(LIBRARY)
-	LD_LIBRARY_PATH=lib ./$(TARGET)
+# $(wildcard src/*.cpp): get all .cpp files from current dir
+TRG_FILES = $(wildcard *.cpp)
+# $(patsubst %.cpp,%, $(TRG_FILES)): change all .cpp files in current dir into exec files
+TRG_EXECS = $(patsubst %.cpp,%, $(TRG_FILES))
+# $(wildcard src/*.cpp): get all .cpp files from "src/"
+SRC_FILES = $(wildcard src/*.cpp)
+# $(patsubst src/%.cpp,obj/%.o,$(SRC_FILES)): change all .cpp files in "src/" into "obj/.o"
+OBJ_FILES = $(patsubst src/%.cpp,obj/%.o,$(SRC_FILES))
+
+build: dir shader $(LIBRARY_FILE) $(TRG_EXECS)
+	echo "done"
+
+%: %.cpp
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS) -l $(LIBRARY)
+	LD_LIBRARY_PATH=lib ./$@
 
 dir:
 	mkdir -p lib obj
@@ -36,6 +48,6 @@ obj/%.o: src/%.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -rf $(TARGET) $(LIBRARY_FILE) $(OBJ_FILES)
+	rm -rf $(TRG_EXECS) $(LIBRARY_FILE) $(OBJ_FILES)
 	
-.PHONY: $(TARGET) shader dir clean
+.PHONY: build $(TARGET) shader dir clean
