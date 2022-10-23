@@ -115,7 +115,6 @@ int main(void) {
 		renderer.clear();
 
 		shader.bind();
-		
 		texture.update(image.next(), image.height, image.width, renderer::texture::color::rgba8);
 		texture.bind();
 		shader.set_uniform_1i("u_Texture", 0);
