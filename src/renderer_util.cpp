@@ -3,8 +3,8 @@
 #include<sstream>
 
 namespace renderer_util {
-std::tuple<std::string, std::string> parse_shader(const std::string& path) {
-    std::ifstream stream(path);
+std::tuple<std::string, std::string> parse_shader(const std::string& source) {
+    std::istringstream stream(source);
 
     enum class ShaderType
     {

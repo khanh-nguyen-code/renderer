@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -g -std=c++17 -fPIC -I include -L lib `pkg-config --cflags glew glfw3`
+CFLAGS = -Wall -g -std=c++17 -fPIC -I . -I include -L lib `pkg-config --cflags glew glfw3`
 LDFLAGS = `pkg-config --libs glew glfw3`
 LIBRARY = Renderer
 TARGET = run.out
@@ -10,6 +10,7 @@ SRCS := $(wildcard src/*.cpp)
 OBJS := $(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
 $(TARGET): build
+	xxd -i -n shader data/shaders/image2d.shader > shader.h
 	$(CC) $(CFLAGS) -o $(TARGET) main.cpp $(LDFLAGS) -l $(LIBRARY)
 	LD_LIBRARY_PATH=lib ./$(TARGET)
 

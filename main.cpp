@@ -5,6 +5,7 @@
 #include"renderer.h"
 #include"renderer_util.h"
 #include"stb_image.h"
+#include"shader.h"
 
 #include<random>
 
@@ -63,10 +64,10 @@ int main(void) {
 
 
 	std::vector<float> positions = {
-		-1.0f, -1.0f, 0.0f, 0.0f, //bottom left
-		 1.0f, -1.0f, 1.0f, 0.0f, //bottom right
-		 1.0f,  1.0f, 1.0f, 1.0f, //top right
-		-1.0f,  1.0f, 0.0f, 1.0f  //top left
+		-1.0f, -1.0f, 0.0f, 0.0f, // bottom left
+		 1.0f, -1.0f, 1.0f, 0.0f, // bottom right
+		 1.0f,  1.0f, 1.0f, 1.0f, // top right
+		-1.0f,  1.0f, 0.0f, 1.0f  // top left
 	};
 
 
@@ -86,8 +87,9 @@ int main(void) {
 	};
 	renderer::index_buffer ib;
 	ib.update(indices.data(), indices.size());
-
-	auto [v_shader, f_shader] = renderer_util::parse_shader("./data/shaders/image2d.shader");
+	
+	const std::string source(reinterpret_cast<char*>(&shader[0]), shader_len);
+	auto [v_shader, f_shader] = renderer_util::parse_shader(source);
 	renderer::shader shader(v_shader, f_shader);
 	shader.bind();
 
