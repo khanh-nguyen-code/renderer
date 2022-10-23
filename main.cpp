@@ -5,7 +5,7 @@
 #include"renderer.h"
 #include"renderer_util.h"
 #include"stb_image.h"
-#include"include/shaders/image2d.h"
+#include"shaders/image2d.h"
 #include"timer.h"
 
 #include<random>
