@@ -12,10 +12,10 @@ namespace renderer {
 class texture{
 public:
     enum color {r8, rgb8, rgba8};
-    texture(const std::string& path);
-    texture(unsigned char* image, int height, int width, color color = rgb8);
+    texture();
     ~texture();
 
+    void update(unsigned char* image, int height, int width, color color = r8) const;
     void bind(unsigned int slot=0) const;
     void unbind(unsigned int slot=0) const;
 private:
@@ -99,10 +99,10 @@ public:
 private:
     unsigned int m_renderer_id;
 };
-class Renderer {
+class renderer {
 public:
-    void Clear();
-    void Draw(const vertex_array& va, const index_buffer& ib, const shader& shader) const;
+    void clear();
+    void draw(const vertex_array& va, const index_buffer& ib, const shader& shader) const;
 };
 }
 

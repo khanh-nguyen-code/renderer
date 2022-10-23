@@ -1,12 +1,10 @@
 #include"renderer.h"
 
 namespace renderer {
-void Renderer::Clear()
-{
+void renderer::clear() {
 	glClear(GL_COLOR_BUFFER_BIT);
 }
-void Renderer::Draw(const vertex_array& va, const index_buffer& ib, const shader& shader) const
-{
+void renderer::draw(const vertex_array& va, const index_buffer& ib, const shader& shader) const {
 	shader.bind();
 	va.bind();
 	ib.bind();
