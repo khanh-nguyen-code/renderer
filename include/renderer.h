@@ -66,31 +66,29 @@ private:
     uint32_t m_renderer_id;
     uint32_t m_count;
 };
-struct vertex_buffer_field {
+
+struct vertex_field {
 	uint32_t type;
 	uint32_t count;
-    uint32_t size() const {
-        switch (type){
-            case dtype::float32:    return 4 * count;
-            case dtype::uint32:     return 4 * count;
-            case dtype::uint8:      return 1 * count;
-            default: return 0;
-        }
-    }
 };
+uint32_t vertex_field_size(vertex_field field);
+
+using vertex_layout = std::vector<vertex_field>;
+uint32_t vertex_layout_size(const vertex_layout& layout);
+
 class vertex_buffer{
 public:
     vertex_buffer();
     ~vertex_buffer();
 
     // size : size in bytes of data
-    void update(const void *data, uint32_t size, const std::vector<vertex_buffer_field>& layout);
-    inline const std::vector<vertex_buffer_field>& layout() const {return m_layout;}
+    void update(const void *data, uint32_t size, const vertex_layout& layout);
+    inline const vertex_layout& layout() const {return m_layout;}
     void bind() const;
     void unbind() const;
 private:
     uint32_t m_renderer_id;
-    std::vector<vertex_buffer_field> m_layout;
+    vertex_layout m_layout;
 };
 
 
