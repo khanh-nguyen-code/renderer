@@ -6,6 +6,7 @@
 #include"renderer_util.h"
 #include"stb_image.h"
 #include"shader.h"
+#include"timer.h"
 
 #include<random>
 
@@ -108,14 +109,17 @@ int main(void) {
 	
 
 	texture_buffer image("./data/textures/image.png");
-	
+
+	uint64_t dt = 0;
+	uint64_t t1, t2;
+
 	while (!glfwWindowShouldClose(window)) {
+		t1 = timer::now();
 		/* render here */
 		renderer.clear();
 
 		shader.bind();
 		
-
 		texture.update(image.next(), image.height, image.width, renderer::texture::color::rgba8);
 		texture.bind();
 		shader.set_uniform_1i("u_Texture", 0);
@@ -127,6 +131,10 @@ int main(void) {
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+		t2 = timer::now();
+		dt = 0.9 * dt + 0.1 * (t2-t1);
+		double fps = 1 / (static_cast<double>(dt) / 1000000000);
+		std::cout << "fps: " << fps << std::endl;
 	}
 	
 	}
