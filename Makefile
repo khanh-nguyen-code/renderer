@@ -25,7 +25,6 @@ build: dir shader $(LIBRARY_FILE) $(TRG_EXECS)
 
 %: %.cpp
 	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS) -l $(LIBRARY)
-	LD_LIBRARY_PATH=lib ./$@
 
 shader:
 	rm -rf include/shaders
@@ -39,7 +38,7 @@ shader:
 	echo "#endif // __IMAGE2D_SHADER_H__" >> include/shaders/image2d.h
 
 $(LIBRARY_FILE): dir $(OBJ_FILES)
-	$(CC) $(CFLAGS) -shared -o $(LIBRARY_FILE) obj/*.o $(LDFLAGS)
+	$(CC) $(CFLAGS) -shared -o $(LIBRARY_FILE) $(OBJ_FILES) $(LDFLAGS)
 
 dir:
 	mkdir -p lib obj
