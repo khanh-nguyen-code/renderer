@@ -1,4 +1,3 @@
-UNAME = $(shell uname)
 CC = cc
 
 CFLAGS = -Wall -g -std=c++17 -fPIC -I . -I include -L lib `pkg-config --cflags glew glfw3`
@@ -6,10 +5,6 @@ LDFLAGS = -l stdc++ `pkg-config --libs glew glfw3`
 LIBRARY = Renderer
 TARGET = run
 
-# fix
-ifeq ($(UNAME), Darwin)
-LDFLAGS += -framework OpenGL
-endif
 LIBRARY_FILE = lib/lib$(LIBRARY).so
 
 # $(wildcard src/*.cpp): get all .cpp files from the current directory and dir "src/"
