@@ -1,6 +1,6 @@
 #include"renderer.h"
 namespace renderer {
-unsigned int vertex_buffer_element::size() const {
+unsigned int vertex_buffer_field::size() const {
 	switch (type){
 		case GL_FLOAT:			return 4 * count;
 		case GL_UNSIGNED_INT:	return 4 * count;

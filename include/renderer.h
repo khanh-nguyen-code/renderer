@@ -72,7 +72,7 @@ public:
 private:
     unsigned int m_renderer_id;
 };
-struct vertex_buffer_element {
+struct vertex_buffer_field {
 	unsigned int type;
 	unsigned int count;
 	unsigned char normalized;
@@ -86,10 +86,10 @@ public:
     void push_unsigned_int(unsigned int count);
     void push_unsigned_char(unsigned int count);
 
-    inline const std::vector<vertex_buffer_element> element_list() const {return m_element_list;} 
+    inline const std::vector<vertex_buffer_field> element_list() const {return m_element_list;} 
     inline unsigned int stride() const {return m_stride;}
 private:
-    std::vector<vertex_buffer_element> m_element_list;
+    std::vector<vertex_buffer_field> m_element_list;
     unsigned int m_stride;
 };
 class vertex_array{

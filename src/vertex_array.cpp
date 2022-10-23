@@ -9,7 +9,7 @@ vertex_array::~vertex_array() {
 void vertex_array::add_buffer(const vertex_buffer& vb, const vertex_buffer_layout& layout) {
 	bind();
 	vb.bind();
-	const std::vector<vertex_buffer_element>& element_list = layout.element_list();
+	const std::vector<vertex_buffer_field>& element_list = layout.element_list();
 	unsigned int offset = 0;
 	for (unsigned int i=0; i<element_list.size(); i++) {
 		const auto& element = element_list[i];
