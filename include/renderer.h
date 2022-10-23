@@ -75,7 +75,6 @@ private:
 struct vertex_buffer_field {
 	unsigned int type;
 	unsigned int count;
-	unsigned char normalized;
     unsigned int size() const;
 };
 class vertex_buffer_layout {
