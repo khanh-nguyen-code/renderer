@@ -46,63 +46,58 @@ int main(void) {
 	const int window_height = 480;
 
 	GLFWwindow *window = glfwCreateWindow(window_width, window_height, "Hello World", nullptr, nullptr);
-
 	if (!window) {
 		glfwTerminate();
 		return -1;
 	}
-
 	glfwMakeContextCurrent(window);
-
 	glfwSwapInterval(1);
-
-	if (glewInit() != GLEW_OK)
+	if (glewInit() != GLEW_OK) {
 		std::cout << "error" << std::endl;
+	}
 
 	std::cout << "opengl version: " << glGetString(GL_VERSION) << std::endl;
 
+	std::vector<renderer::vertex_buffer> vb_list;
 	{
-
-
-	std::vector<float> positions = {
-		-1.0f, -1.0f, 0.0f, 0.0f, // bottom left
-		 1.0f, -1.0f, 1.0f, 0.0f, // bottom right
-		 1.0f,  1.0f, 1.0f, 1.0f, // top right
-		-1.0f,  1.0f, 0.0f, 1.0f  // top left
-	};
-	renderer::vertex_buffer vb;
-	vb.update(
-		positions.data(), positions.size() * sizeof(float),
-		{{renderer::float32, 2}, {renderer::float32, 2}} 
-	);
-	// 2 floats of rectangle vertices
-	// 2 floats of texture coordinates
+		std::vector<float> positions = {
+			-1.0f, -1.0f, 0.0f, 0.0f, // bottom left
+			1.0f, -1.0f, 1.0f, 0.0f, // bottom right
+			1.0f,  1.0f, 1.0f, 1.0f, // top right
+			-1.0f,  1.0f, 0.0f, 1.0f  // top left
+		};
+		// 2 floats of rectangle vertices
+		// 2 floats of texture coordinates
+		vb_list.emplace_back();
+		vb_list.back().update(
+			positions.data(), positions.size() * sizeof(float),
+			{{renderer::float32, 2}, {renderer::float32, 2}} 
+		);
+	}
 
 	renderer::vertex_array va;
-	va.add_buffer(vb);
+	{
+		for (auto& vb: vb_list) {
+			va.add_buffer(vb);
+		}
 
-	std::vector<unsigned int> indices = {
-		0, 1, 2, // first triangle (bottom left - bottom right - top right)
-		2, 3, 0  // second triangle (top right - top left - bottom left)
-	};
+	}
+	
 	renderer::index_buffer ib;
-	ib.update(indices.data(), indices.size());
+	{
+		std::vector<unsigned int> indices = {
+			0, 1, 2, // first triangle (bottom left - bottom right - top right)
+			2, 3, 0  // second triangle (top right - top left - bottom left)
+		};
+		ib.update(indices.data(), indices.size());
+	}
 	
 	const std::string source(reinterpret_cast<char*>(&shader::image2d[0]), shader::image2d_len);
 	auto [v_shader, f_shader] = renderer_util::parse_shader(source);
 	renderer::shader shader(v_shader, f_shader);
-	shader.bind();
-
-	renderer::texture texture;
-	texture.bind();
 	
-
-	va.unbind();
-	vb.unbind();
-	ib.unbind();
-	shader.unbind();
-	texture.unbind();
-
+	renderer::texture texture;
+	
 	renderer::renderer renderer;
 
 	texture_buffer image("./data/textures/image.png");
@@ -134,8 +129,6 @@ int main(void) {
 		std::cout << "fps: " << fps << std::endl;
 	}
 	
-	}
-
 	glfwTerminate();
 	return 0;
 }
