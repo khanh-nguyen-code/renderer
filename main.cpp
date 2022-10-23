@@ -5,7 +5,7 @@
 #include"renderer.h"
 #include"renderer_util.h"
 #include"stb_image.h"
-#include"shader.h"
+#include"include/shaders/image2d.h"
 #include"timer.h"
 
 #include<random>
@@ -89,7 +89,7 @@ int main(void) {
 	renderer::index_buffer ib;
 	ib.update(indices.data(), indices.size());
 	
-	const std::string source(reinterpret_cast<char*>(&shader[0]), shader_len);
+	const std::string source(reinterpret_cast<char*>(&shader::image2d[0]), shader::image2d_len);
 	auto [v_shader, f_shader] = renderer_util::parse_shader(source);
 	renderer::shader shader(v_shader, f_shader);
 	shader.bind();
