@@ -6,16 +6,19 @@ vertex_array::vertex_array() {
 vertex_array::~vertex_array() {
 	glDeleteVertexArrays(1, &m_renderer_id);
 }
-void vertex_array::add_buffer(const vertex_buffer& vb, const vertex_buffer_layout& layout) {
+void vertex_array::add_buffer(const vertex_buffer& vb) {
 	bind();
 	vb.bind();
-	const std::vector<vertex_buffer_field>& element_list = layout.element_list();
+	uint32_t stride = 0;
+	for (auto& e: vb.layout()) {
+		stride += e.size();
+	}
 	unsigned int offset = 0;
-	for (unsigned int i=0; i<element_list.size(); i++) {
-		const auto& element = element_list[i];
+	for (unsigned int i=0; i<vb.layout().size(); i++) {
+		const auto& e = vb.layout()[i];
 		glEnableVertexAttribArray(i);
-		glVertexAttribPointer(i, element.count, element.type,  GL_FALSE , layout.stride(), reinterpret_cast<const void*>(offset));
-		offset += element.size();
+		glVertexAttribPointer(i, e.count, e.type,  GL_FALSE , stride, reinterpret_cast<const void*>(offset));
+		offset += e.size();
 	}
 }
 void vertex_array::bind() const {

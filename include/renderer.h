@@ -9,6 +9,13 @@
 #define ASSERT(x) if (!(x)) __builtin_trap()
 
 namespace renderer {
+enum dtype {
+    float32 = GL_FLOAT,
+    uint32 = GL_UNSIGNED_INT,
+    uint8 = GL_UNSIGNED_BYTE
+};
+
+
 class texture{
 public:
     enum color {r8 = 0, rgb8 = 1, rgba8 = 2};
@@ -59,44 +66,40 @@ private:
     unsigned int m_renderer_id;
     unsigned int m_count;
 };
+struct vertex_buffer_field {
+	unsigned int type;
+	unsigned int count;
+    unsigned int size() const {
+        switch (type){
+            case dtype::float32:    return 4 * count;
+            case dtype::uint32:     return 4 * count;
+            case dtype::uint8:      return 1 * count;
+            default: return 0;
+        }
+    }
+};
 class vertex_buffer{
 public:
     vertex_buffer();
     ~vertex_buffer();
 
     // size : size in bytes of data
-    void update(const void *data, unsigned int size) const;
-
+    void update(const void *data, unsigned int size, const std::vector<vertex_buffer_field>& layout);
+    inline const std::vector<vertex_buffer_field>& layout() const {return m_layout;}
     void bind() const;
     void unbind() const;
 private:
     unsigned int m_renderer_id;
+    std::vector<vertex_buffer_field> m_layout;
 };
-struct vertex_buffer_field {
-	unsigned int type;
-	unsigned int count;
-    unsigned int size() const;
-};
-class vertex_buffer_layout {
-public:
-    vertex_buffer_layout(): m_stride(0) {}
 
-    void push_float(unsigned int count);
-    void push_unsigned_int(unsigned int count);
-    void push_unsigned_char(unsigned int count);
 
-    inline const std::vector<vertex_buffer_field> element_list() const {return m_element_list;} 
-    inline unsigned int stride() const {return m_stride;}
-private:
-    std::vector<vertex_buffer_field> m_element_list;
-    unsigned int m_stride;
-};
 class vertex_array{
 public:
     vertex_array();
     ~vertex_array();
 
-    void add_buffer(const vertex_buffer& vb, const vertex_buffer_layout& layout);
+    void add_buffer(const vertex_buffer& vb);
     void bind() const;
     void unbind() const;
 private:
