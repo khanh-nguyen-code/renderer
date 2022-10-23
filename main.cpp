@@ -38,22 +38,26 @@ public:
 
 
 int main(void) {
-	//intialize the library
-	if (!glfwInit())
-		return -1;
+	if (!glfwInit()) {
+		std::cout << "glfw init" << std::endl;
+		return 1;
+	}
 
 	const int window_width = 640;
 	const int window_height = 480;
 
-	GLFWwindow *window = glfwCreateWindow(window_width, window_height, "Hello World", nullptr, nullptr);
+	GLFWwindow *window = glfwCreateWindow(window_width, window_height, "random", nullptr, nullptr);
 	if (!window) {
 		glfwTerminate();
-		return -1;
+		std::cout << "glfw create window" << std::endl;
+		return 1;
 	}
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);
+
 	if (glewInit() != GLEW_OK) {
-		std::cout << "error" << std::endl;
+		std::cout << "glew init" << std::endl;
+		return 1;
 	}
 
 	std::cout << "opengl version: " << glGetString(GL_VERSION) << std::endl;
