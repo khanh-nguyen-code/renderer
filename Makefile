@@ -9,10 +9,17 @@ SRCS := $(wildcard src/*.cpp)
 # $(patsubst %.cpp,%.o,$(SRCS)): substitute all ".cpp" file name strings to ".o" file name strings
 OBJS := $(patsubst src/%.cpp,obj/%.o,$(SRCS))
 
-$(TARGET): build
-	xxd -i -n shader data/shaders/image2d.shader > shader.h
+$(TARGET): shader build
 	$(CC) $(CFLAGS) -o $(TARGET) main.cpp $(LDFLAGS) -l $(LIBRARY)
 	LD_LIBRARY_PATH=lib ./$(TARGET)
+
+shader:
+	rm -f shader.h
+	touch shader.h
+	echo "#ifndef __SHADER_H__" >> shader.h
+	echo "#define __SHADER_H__" >> shader.h
+	xxd -i -n shader data/shaders/image2d.shader >> shader.h
+	echo "#endif // __SHADER_H__" >> shader.h
 
 build: $(OBJS)
 	mkdir -p lib
