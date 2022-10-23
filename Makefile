@@ -1,6 +1,6 @@
-CC = g++
+CC = gcc
 CFLAGS = -Wall -g -std=c++17 -fPIC -I . -I include -L lib `pkg-config --cflags glew glfw3`
-LDFLAGS = `pkg-config --libs glew glfw3`
+LDFLAGS = -l stdc++ `pkg-config --libs glew glfw3`
 LIBRARY = Renderer
 TARGET = run
 
