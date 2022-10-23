@@ -32,10 +32,10 @@ void shader::set_uniform_4f(const std::string& name, float v0, float v1, float v
 	glUniform4f(get_uniform_location(name), v0, v1, v2, v3);
 }
 
-unsigned int shader::create_shader() {
-	unsigned int program =  glCreateProgram();
-	unsigned int vs = compile_shader(GL_VERTEX_SHADER);
-	unsigned int fs = compile_shader(GL_FRAGMENT_SHADER);
+uint32_t shader::create_shader() {
+	uint32_t program =  glCreateProgram();
+	uint32_t vs = compile_shader(GL_VERTEX_SHADER);
+	uint32_t fs = compile_shader(GL_FRAGMENT_SHADER);
 
 	glAttachShader(program, vs);
 	glAttachShader(program, fs);
@@ -49,8 +49,8 @@ unsigned int shader::create_shader() {
 
 	return program;
 }
-unsigned int shader::compile_shader(unsigned int type) {
-	unsigned int id = glCreateShader(type);
+uint32_t shader::compile_shader(uint32_t type) {
+	uint32_t id = glCreateShader(type);
 	const char *src;
 	if (GL_VERTEX_SHADER == type)
 		src = m_vertex_shader.c_str();

@@ -23,10 +23,10 @@ public:
     ~texture();
 
     void update(unsigned char* buffer, int height, int width, color color = r8) const;
-    void bind(unsigned int slot=0) const;
-    void unbind(unsigned int slot=0) const;
+    void bind(uint32_t slot=0) const;
+    void unbind(uint32_t slot=0) const;
 private:
-    unsigned int m_renderer_id;
+    uint32_t m_renderer_id;
 };
 class shader {
 public:
@@ -41,11 +41,11 @@ public:
     void set_uniform_1f(const std::string& name, float value);
     void set_uniform_4f(const std::string& name, float f0, float f1, float f2, float f3);
 private:
-    unsigned int create_shader();
-    unsigned int compile_shader(unsigned int type);
+    uint32_t create_shader();
+    uint32_t compile_shader(uint32_t type);
     int get_uniform_location(const std::string& name);
 private:
-    unsigned int m_renderer_id;
+    uint32_t m_renderer_id;
     std::string m_vertex_shader;
     std::string m_fragment_shader;
     std::unordered_map<std::string, int> m_uniform_location_cache;
@@ -56,20 +56,20 @@ public:
     ~index_buffer();
 
     // count : number of elements
-    void update(const unsigned int *data, unsigned int count);
+    void update(const uint32_t *data, uint32_t count);
 
     void bind() const;
     void unbind() const;
 
-    inline unsigned int count() const {return m_count;}
+    inline uint32_t count() const {return m_count;}
 private:
-    unsigned int m_renderer_id;
-    unsigned int m_count;
+    uint32_t m_renderer_id;
+    uint32_t m_count;
 };
 struct vertex_buffer_field {
-	unsigned int type;
-	unsigned int count;
-    unsigned int size() const {
+	uint32_t type;
+	uint32_t count;
+    uint32_t size() const {
         switch (type){
             case dtype::float32:    return 4 * count;
             case dtype::uint32:     return 4 * count;
@@ -84,12 +84,12 @@ public:
     ~vertex_buffer();
 
     // size : size in bytes of data
-    void update(const void *data, unsigned int size, const std::vector<vertex_buffer_field>& layout);
+    void update(const void *data, uint32_t size, const std::vector<vertex_buffer_field>& layout);
     inline const std::vector<vertex_buffer_field>& layout() const {return m_layout;}
     void bind() const;
     void unbind() const;
 private:
-    unsigned int m_renderer_id;
+    uint32_t m_renderer_id;
     std::vector<vertex_buffer_field> m_layout;
 };
 
@@ -103,7 +103,7 @@ public:
     void bind() const;
     void unbind() const;
 private:
-    unsigned int m_renderer_id;
+    uint32_t m_renderer_id;
 };
 class renderer {
 public:

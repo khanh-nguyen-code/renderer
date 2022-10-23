@@ -13,8 +13,8 @@ void vertex_array::add_buffer(const vertex_buffer& vb) {
 	for (auto& e: vb.layout()) {
 		stride += e.size();
 	}
-	unsigned int offset = 0;
-	for (unsigned int i=0; i<vb.layout().size(); i++) {
+	uint32_t offset = 0;
+	for (uint32_t i=0; i<vb.layout().size(); i++) {
 		const auto& e = vb.layout()[i];
 		glEnableVertexAttribArray(i);
 		glVertexAttribPointer(i, e.count, e.type,  GL_FALSE , stride, reinterpret_cast<const void*>(offset));

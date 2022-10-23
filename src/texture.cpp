@@ -43,11 +43,11 @@ void texture::update(unsigned char* buffer, int height, int width, color color) 
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void texture::bind(unsigned int slot) const {
+void texture::bind(uint32_t slot) const {
 	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, m_renderer_id);
 }
-void texture::unbind(unsigned int slot) const {
+void texture::unbind(uint32_t slot) const {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 }

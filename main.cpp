@@ -85,7 +85,7 @@ int main(void) {
 	
 	renderer::index_buffer ib;
 	{
-		std::vector<unsigned int> indices = {
+		std::vector<uint32_t> indices = {
 			0, 1, 2, // first triangle (bottom left - bottom right - top right)
 			2, 3, 0  // second triangle (top right - top left - bottom left)
 		};
