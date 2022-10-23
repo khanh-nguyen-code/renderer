@@ -15,7 +15,7 @@ public:
     texture();
     ~texture();
 
-    void update(unsigned char* image, int height, int width, color color = r8) const;
+    void update(unsigned char* buffer, int height, int width, color color = r8) const;
     void bind(unsigned int slot=0) const;
     void unbind(unsigned int slot=0) const;
 private:

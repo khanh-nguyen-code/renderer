@@ -7,7 +7,7 @@ texture::~texture() {
 	glDeleteTextures(1, &m_renderer_id);
 }
 
-void texture::update(unsigned char* image, int height, int width, color color) const {
+void texture::update(unsigned char* buffer, int height, int width, color color) const {
 	glBindTexture(GL_TEXTURE_2D, m_renderer_id);
 		
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -39,7 +39,7 @@ void texture::update(unsigned char* image, int height, int width, color color) c
 	}
 
 
-	glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, 0, format, GL_UNSIGNED_BYTE, image);
+	glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, 0, format, GL_UNSIGNED_BYTE, buffer);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 

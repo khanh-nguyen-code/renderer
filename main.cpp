@@ -2,17 +2,40 @@
 #include<GLFW/glfw3.h>
 #include<iostream>
 
-
 #include"renderer.h"
 #include"renderer_util.h"
 #include"stb_image.h"
 
+#include<random>
 
-#include<cmath>
+class texture_buffer {
+public:
+	texture_buffer(const std::string& path) {
+		stbi_set_flip_vertically_on_load(1);
+		buffer = stbi_load("./data/textures/image.png", &width, &height, &chan, 4);
+		engine = std::default_random_engine();		
+	}
+	unsigned char* next() {
+		std::uniform_int_distribution<uint8_t> dist(0, 255);
+		for (int i=0; i<height; i++)
+		for (int j=0; j<width; j++)
+		for (int k=0; k<chan; k++) {
+			if (i < height/2)
+				buffer[(i * width + j) * chan + k] = dist(engine);
+		}
+		return buffer;
+	}	
+
+	~texture_buffer() {
+		stbi_image_free(buffer);
+	}
+	std::default_random_engine engine;
+	int width, height, chan;
+	unsigned char* buffer;
+};
 
 
-int main(void)
-{
+int main(void) {
 	//intialize the library
 	if (!glfwInit())
 		return -1;
@@ -66,17 +89,6 @@ int main(void)
 	renderer::shader shader(v_shader, f_shader);
 	shader.bind();
 
-
-	int width, height, chan;
-	stbi_set_flip_vertically_on_load(1);
-	unsigned char* image = stbi_load("./data/textures/image.png", &width, &height, &chan, 4);
-
-	for (int i=0; i<height; i++)
-	for (int j=0; j<width; j++)
-	for (int k=0; k<chan; k++) {
-		if (k == 2 and i < height/2)
-			image[(i * width + j) * chan + k] = 255;
-	}
 	renderer::texture texture;
 	texture.bind();
 	
@@ -86,12 +98,12 @@ int main(void)
 	ib.unbind();
 	shader.unbind();
 	texture.unbind();
-	texture.update(image, height, width, renderer::texture::color::rgba8);
 
 	renderer::renderer renderer;
 	
 	
 
+	texture_buffer image("./data/textures/image.png");
 	
 	while (!glfwWindowShouldClose(window)) {
 		/* render here */
@@ -99,6 +111,8 @@ int main(void)
 
 		shader.bind();
 		
+
+		texture.update(image.next(), image.height, image.width, renderer::texture::color::rgba8);
 		texture.bind();
 		shader.set_uniform_1i("u_Texture", 0);
 
