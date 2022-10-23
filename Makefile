@@ -2,7 +2,7 @@ CC = g++
 CFLAGS = -Wall -g -std=c++17 -fPIC -I include -L lib `pkg-config --cflags glew glfw3`
 LDFLAGS = `pkg-config --libs glew glfw3`
 LIBRARY = Renderer
-TARGET = run
+TARGET = run.out
 
 # $(wildcard src/*.cpp): get all .cpp files from the current directory and dir "src/"
 SRCS := $(wildcard src/*.cpp)

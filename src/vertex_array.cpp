@@ -14,7 +14,7 @@ void vertex_array::add_buffer(const vertex_buffer& vb, const vertex_buffer_layou
 	for (unsigned int i=0; i<element_list.size(); i++) {
 		const auto& element = element_list[i];
 		glEnableVertexAttribArray(i);
-		glVertexAttribPointer(i, element.count, element.type,  element.normalized , layout.stride(), (const void*)offset);
+		glVertexAttribPointer(i, element.count, element.type,  element.normalized , layout.stride(), reinterpret_cast<const void*>(offset));
 		offset += element.size();
 	}
 }
