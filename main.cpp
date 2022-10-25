@@ -73,7 +73,7 @@ int main(void) {
 			 1,  1, 1, 1, 1, 1, // top right
 			-1,  1, 1, 1, 0, 1  // top left
 		};
-		// 2 floats of rectangle vertices - any coordinate, as long as they form a rectangle
+		// 4 floats of rectangle vertices - any coordinate, as long as they form a rectangle
 		// 2 floats of texture coordinates - unit square
 		vb_list.emplace_back();
 		vb_list.back().update(
