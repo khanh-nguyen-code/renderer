@@ -39,7 +39,7 @@ public:
 
 int main(int argc, char** argv) {
 	if (argc < 2) {
-		std::cout << "Usage: ./main <path_to_texture>" << std::endl;
+		std::cout << "Usage: ./run <path_to_texture>" << std::endl;
 		return 1;
 	}
 
