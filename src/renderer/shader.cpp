@@ -2,7 +2,7 @@
 #include<fstream>
 #include<string>
 #include<sstream>
-#include"renderer.h"
+#include"renderer/renderer.h"
 
 namespace renderer {
 shader::shader(const std::string& v_shader, const std::string& f_shader) {

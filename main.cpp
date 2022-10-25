@@ -2,19 +2,19 @@
 #include<GLFW/glfw3.h>
 #include<iostream>
 
-#include"renderer.h"
-#include"renderer_util.h"
+#include"renderer/renderer.h"
+#include"renderer/renderer_util.h"
 #include"stb_image.h"
-#include"shaders/image2d.h"
+#include"renderer/shaders/image2d.h"
 #include"timer.h"
 
 #include<random>
 
 class texture_buffer {
 public:
-	texture_buffer(const std::string& path) {
+	texture_buffer(const char* path) {
 		stbi_set_flip_vertically_on_load(1);
-		buffer = stbi_load("./data/textures/image.png", &width, &height, &chan, 4);
+		buffer = stbi_load(path, &width, &height, &chan, 4);
 		engine = std::default_random_engine();		
 	}
 	unsigned char* next() {
@@ -37,7 +37,12 @@ public:
 };
 
 
-int main(void) {
+int main(int argc, char** argv) {
+	if (argc < 2) {
+		std::cout << "Usage: ./main <path_to_texture>" << std::endl;
+		return 1;
+	}
+
 	if (!glfwInit()) {
 		std::cout << "glfw init" << std::endl;
 		return 1;
@@ -107,7 +112,7 @@ int main(void) {
 	
 	renderer::renderer renderer;
 
-	texture_buffer image("./data/textures/image.png");
+	texture_buffer image(argv[1]);
 
 	uint64_t dt = 0;
 	uint64_t t1, t2;
