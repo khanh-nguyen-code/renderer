@@ -65,17 +65,17 @@ int main(void) {
 	std::vector<renderer::vertex_buffer> vb_list;
 	{
 		std::vector<float> positions = {
-			-1.0f, -1.0f, 0.0f, 0.0f, // bottom left
-			1.0f, -1.0f, 1.0f, 0.0f, // bottom right
-			1.0f,  1.0f, 1.0f, 1.0f, // top right
-			-1.0f,  1.0f, 0.0f, 1.0f  // top left
+			-1, -1, 1, 1, 0, 0, // bottom left
+			 1, -1, 1, 1, 1, 0, // bottom right
+			 1,  1, 1, 1, 1, 1, // top right
+			-1,  1, 1, 1, 0, 1  // top left
 		};
 		// 2 floats of rectangle vertices - any coordinate, as long as they form a rectangle
 		// 2 floats of texture coordinates - unit square
 		vb_list.emplace_back();
 		vb_list.back().update(
 			positions.data(), positions.size() * sizeof(float),
-			{{renderer::float32, 2}, {renderer::float32, 2}} 
+			{{renderer::float32, 4}, {renderer::float32, 2}} 
 		);
 	}
 
