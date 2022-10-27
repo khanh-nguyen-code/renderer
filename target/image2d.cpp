@@ -15,6 +15,7 @@ public:
 	texture_buffer(const char* path) {
 		stbi_set_flip_vertically_on_load(1);
 		buffer = stbi_load(path, &width, &height, &chan, 4);
+		// shape: (height, width, chan)
 		engine = std::default_random_engine();		
 	}
 	unsigned char* next() {
@@ -50,10 +51,7 @@ int main(int argc, char** argv) {
 
 	const int window_width = 640;
 	const int window_height = 480;
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+
 	GLFWwindow *window = glfwCreateWindow(window_width, window_height, "random", nullptr, nullptr);
 	if (!window) {
 		glfwTerminate();
@@ -73,17 +71,17 @@ int main(int argc, char** argv) {
 	std::vector<renderer::vertex_buffer> vb_list;
 	{
 		std::vector<float> positions = {
-			-1, -1, 1, 1, 0, 0, // bottom left
-			 1, -1, 1, 1, 1, 0, // bottom right
-			 1,  1, 1, 1, 1, 1, // top right
-			-1,  1, 1, 1, 0, 1  // top left
+			-1, -1, 0, 0, 0, // bottom left
+			 1, -1, 0, 1, 0, // bottom right
+			 1,  1, 0, 1, 1, // top right
+			-1,  1, 0, 0, 1  // top left
 		};
 		// 4 floats of rectangle vertices - any coordinate, as long as they form a rectangle
 		// 2 floats of texture coordinates - unit square
 		vb_list.emplace_back();
 		vb_list.back().update(
 			positions.data(), positions.size() * sizeof(float),
-			{{renderer::float32, 4}, {renderer::float32, 2}} 
+			{{renderer::float32, 3}, {renderer::float32, 2}} 
 		);
 	}
 
